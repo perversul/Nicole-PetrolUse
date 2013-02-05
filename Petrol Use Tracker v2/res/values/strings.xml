@@ -1,0 +1,29 @@
+<resources>
+
+    <string name="app_name">Petrol Use Tracker</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="record_fill_up_title">Record Fill Up</string>
+    <string name="my_stats_title">My Stats</string>
+    <string name="change_vehicle_title">Change Vehicle</string>
+    <string name="settings_title">Settings</string>
+    <string name="log_in_title">Log In</string>
+    <string name="title_activity_record_fill_up">RecordFillUpActivity</string>
+    <string name="date_label">Date</string>
+    <string name="calendar_description">Calendar</string>
+    <string name="odometer_label">Odometer</string>
+    <string name="km_unit">km</string>
+    <string name="volume_label">Volume</string>
+    <string name="litre_unit">ltr</string>
+    <string name="price_label">Price</string>
+    <string name="euroCurrency">Euro</string>
+    <string name="partial_fill_up">Partial Fill Up?</string>
+    <string name="attach_receipt">Attach a Receipt</string>
+    <string name="submit_label">Submit</string>
+    <string name="cancel_label">Cancel</string>
+    <string name="cancelDescription">Cancel the action</string>
+    <string name="submit_description">Submit the information</string>
+    <string name="my_test_title">Testing</string>
+
+</resources>
