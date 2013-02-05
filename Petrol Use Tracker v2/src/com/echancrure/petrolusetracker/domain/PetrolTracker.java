@@ -23,7 +23,7 @@ public class PetrolTracker {
 	
 	/**
 	 * Obtain the app's controller
-	 * @return the single controller for the entire app
+	 * @return the single controller instance for the entire app
 	 */
 	public static PetrolTracker getInstance() {
 		return petrolTracker;
