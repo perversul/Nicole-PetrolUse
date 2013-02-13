@@ -3,6 +3,8 @@ package com.echancrure.petrolusetracker.services;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.echancrure.petrolusetracker.domain.FillUp;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -29,7 +31,7 @@ public class StorageService {
 	 * @param communicationType the type of the communication to be performed, login, report fillup etc. 
 	 * @param data the JSON object encoding the object to be communicated
 	 */
-	public JSONObject upload(communicationType type, JSONObject data) {
+	public JSONObject upload(communicationType type, FillUp fillUp) {
 		Log.d(TAG, "Requesting communication:" + type.toString());
 		JSONObject answer = new JSONObject();
 		try {
@@ -39,13 +41,17 @@ public class StorageService {
 		}
 		switch (type) {
 		case REPORT_FILLUP:
+			Database db = new Database(this.context);
+			db.open();
+			db.insertFillUp(fillUp);
+			/*
 			HttpService connection = new HttpService(this.context);
 			boolean localAnswer = connection.reportFillup(data);
 			try {
 				answer.put(STATUS, localAnswer);
 			} catch (JSONException e) {
 				Utils.raiseRunTimeException(TAG, e, "Will never occur");
-			}
+			}*/
 			break;
 		case LOGIN:
 			break;
@@ -53,7 +59,6 @@ public class StorageService {
 			Utils.raiseRunTimeException(TAG, new RuntimeException("Unexpected communication type"), "A pure coding mistake exception");
 			break;
 		}
-			
 		return answer;
 	}
 }

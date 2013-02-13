@@ -68,9 +68,8 @@ public class FillUp {
 		JSONObject answer;
 		Boolean status = false;
 		try {
-			fillUp = this.toJSONObject();
 			StorageService communicationService = new StorageService(this.context);
-			answer = communicationService.upload(StorageService.communicationType.REPORT_FILLUP, fillUp);
+			answer = communicationService.upload(StorageService.communicationType.REPORT_FILLUP, this);
 			status = answer.getBoolean(StorageService.STATUS);
 		} catch (JSONException e) {
 			Utils.raiseRunTimeException(TAG, e, "When trying to up load a fill up");
@@ -78,7 +77,31 @@ public class FillUp {
 		Log.d(TAG, "status of upload of fillup:" + status);
 		return status;
 	}
-	
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	public long getDateTime() {
+		return dateTime;
+	}
+
+	public int getOdometer() {
+		return odometer;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public float getVolume() {
+		return volume;
+	}
+
+	public boolean isPartial() {
+		return partial;
+	}
+
 	/**
 	 * encode a fill up as a JSON object
 	 * @return the encode fillup as a JSON object

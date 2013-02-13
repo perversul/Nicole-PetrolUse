@@ -10,12 +10,10 @@ import android.util.Log;
  */
 public class PetrolTracker {
 	private final static String TAG = "PetrolTracker";
-	/**
-	 * a fill up reported by the user of the app
-	 */
+	/** A fill up reported by the user of the app */
 	private FillUp reportedFillUp = null;
 	/** The singleton controller for the entire app */
-	static private final PetrolTracker petrolTracker = new PetrolTracker();
+	static private PetrolTracker petrolTracker = null;
 	
 	private PetrolTracker() {
 		//nothing for now, if this gets complicated or if all the resources are not ready at load up time, consider a lazy implementation of the singleton pattern
