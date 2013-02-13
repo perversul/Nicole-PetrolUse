@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="false"
@@ -30,6 +32,8 @@
             android:label="@string/title_activity_record_fill_up" >
         </activity>
         <activity android:name=".gui.TestActivity"></activity>
+        <service android:name=".services.AddLocationService">
+		</service>
     </application>
 
 </manifest>

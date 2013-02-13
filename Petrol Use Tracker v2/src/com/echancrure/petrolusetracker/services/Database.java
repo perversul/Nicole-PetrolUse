@@ -40,7 +40,7 @@ public  class Database {
 	    return rowId;
 	  }
 	
-	public void updateFillUp(long rowId, float latitude, float longitude) {
+	public void updateFillUp(long rowId, double latitude, double longitude) {
 		//TODO
 	}
 

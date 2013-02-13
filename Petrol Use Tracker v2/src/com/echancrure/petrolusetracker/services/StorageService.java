@@ -5,7 +5,9 @@ import org.json.JSONObject;
 
 import com.echancrure.petrolusetracker.domain.FillUp;
 
+import android.app.IntentService;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 /**
@@ -21,6 +23,7 @@ public class StorageService {
 	static public enum communicationType {
         REPORT_FILLUP, LOGIN
     }
+	
 	
 	public StorageService(Context context) {
 		this.context = context;
@@ -43,7 +46,7 @@ public class StorageService {
 		case REPORT_FILLUP:
 			Database db = new Database(this.context);
 			db.open();
-			long rowId = db.insertFillUp(fillUp); //allthis should be put into an asynchronous task if we feel that it takes more than 0.2s not the case at the moment so we don't
+			long rowId = db.insertFillUp(fillUp); //all this should be put into an asynchronous task if we feel that it takes more than 0.2s not the case at the moment so we don't
 			if (rowId == -1) {	//an error occurred when inserting a row
 				return answer; 
 			}
@@ -52,7 +55,11 @@ public class StorageService {
 			} catch (JSONException e) {
 				Utils.raiseRunTimeException(TAG, e, "Will never occur");		//TODO doing this is very ugly: just return a boolean, or a enum for more flexibility if necessary 
 			}
-			//need to create asyntask to check geolocation
+			Intent getLocationIntent = new Intent(this.context, LocationService.class);
+			getLocationIntent.putExtra(LocationService.EXTRA_TIME_OF_REQUEST, System.currentTimeMillis());
+			getLocationIntent.putExtra(LocationService.EXTRA_INSERTED_ROW_ID, rowId);
+            
+            this.context.startService(getLocationIntent); // We start the service that will add the location to the fillup; eventually...
 			/*
 			HttpService connection = new HttpService(this.context);
 			boolean localAnswer = connection.reportFillup(data);
