@@ -35,7 +35,7 @@ public class StorageService {
 		Log.d(TAG, "Requesting communication:" + type.toString());
 		JSONObject answer = new JSONObject();
 		try {
-			answer.put(STATUS, false);
+			answer.put(STATUS, false);	//we assume the worse, error is returned by default
 		} catch (JSONException e) {
 			Utils.raiseRunTimeException(TAG, e, "Will never occur");
 		}
@@ -43,7 +43,16 @@ public class StorageService {
 		case REPORT_FILLUP:
 			Database db = new Database(this.context);
 			db.open();
-			db.insertFillUp(fillUp);
+			long rowId = db.insertFillUp(fillUp); //allthis should be put into an asynchronous task if we feel that it takes more than 0.2s not the case at the moment so we don't
+			if (rowId == -1) {	//an error occurred when inserting a row
+				return answer; 
+			}
+			try {
+				answer.put(STATUS, true);
+			} catch (JSONException e) {
+				Utils.raiseRunTimeException(TAG, e, "Will never occur");		//TODO doing this is very ugly: just return a boolean, or a enum for more flexibility if necessary 
+			}
+			//need to create asyntask to check geolocation
 			/*
 			HttpService connection = new HttpService(this.context);
 			boolean localAnswer = connection.reportFillup(data);

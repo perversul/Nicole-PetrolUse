@@ -64,7 +64,6 @@ public class FillUp {
 	 * @return
 	 */
 	public boolean upload() {
-		JSONObject fillUp;
 		JSONObject answer;
 		Boolean status = false;
 		try {

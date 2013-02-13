@@ -13,7 +13,7 @@ public class PetrolTracker {
 	/** A fill up reported by the user of the app */
 	private FillUp reportedFillUp = null;
 	/** The singleton controller for the entire app */
-	static private PetrolTracker petrolTracker = null;
+	static private final PetrolTracker petrolTracker = new PetrolTracker();
 	
 	private PetrolTracker() {
 		//nothing for now, if this gets complicated or if all the resources are not ready at load up time, consider a lazy implementation of the singleton pattern
