@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import com.echancrure.petrolusetracker.domain.FillUp;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -43,10 +42,11 @@ public class StorageService {
 			Utils.raiseRunTimeException(TAG, e, "Will never occur");
 		}
 		switch (type) {
-		case REPORT_FILLUP:
+		case REPORT_FILLUP: //add to database; launch geo-location service
 			Database db = new Database(this.context);
 			db.open();
 			long rowId = db.insertFillUp(fillUp); //all this should be put into an asynchronous task if we feel that it takes more than 0.2s not the case at the moment so we don't
+			db.close();
 			if (rowId == -1) {	//an error occurred when inserting a row
 				return answer; 
 			}
@@ -58,16 +58,7 @@ public class StorageService {
 			Intent getLocationIntent = new Intent(this.context, LocationService.class);
 			getLocationIntent.putExtra(LocationService.EXTRA_TIME_OF_REQUEST, System.currentTimeMillis());
 			getLocationIntent.putExtra(LocationService.EXTRA_INSERTED_ROW_ID, rowId);
-            
             this.context.startService(getLocationIntent); // We start the service that will add the location to the fillup; eventually...
-			/*
-			HttpService connection = new HttpService(this.context);
-			boolean localAnswer = connection.reportFillup(data);
-			try {
-				answer.put(STATUS, localAnswer);
-			} catch (JSONException e) {
-				Utils.raiseRunTimeException(TAG, e, "Will never occur");
-			}*/
 			break;
 		case LOGIN:
 			break;
@@ -76,5 +67,17 @@ public class StorageService {
 			break;
 		}
 		return answer;
+	}
+	
+	void uploadFillUp() {
+		/*JSONObject answer = new JSONObject();
+		HttpService connection = new HttpService(this.context);
+		boolean localAnswer = connection.reportFillup(data);
+		try {
+			answer.put(STATUS, localAnswer);
+		} catch (JSONException e) {
+			Utils.raiseRunTimeException(TAG, e, "Will never occur");
+		}*/
+	//and if successful delete the entry from the database, if not add listener to new netwrok connection event or could also try later (20 minutes?)
 	}
 }

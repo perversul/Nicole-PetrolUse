@@ -1,12 +1,9 @@
 package com.echancrure.petrolusetracker.services;
 
-import com.echancrure.petrolusetracker.services.DatabaseHelper.FillUpEntry;
-
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -36,7 +33,6 @@ public class LocationService extends IntentService {
     private static final int TIME_INTERVAL_GPS = 1000 * 15; // 15 seconds
     /** The maximum time (in millis) for reusing an old location update. */
     public static final int FIVE_MINUTES = 1000 * 5 * 60;
-    private Context context;
     /** the row in the fillup table to update  */
     private int rowId = -1;
     /** the time at which this location service was requested */
@@ -91,6 +87,7 @@ public class LocationService extends IntentService {
                 Log.d(TAG, "join finished: the location thread should be terminated, isAlive should be false:" + getNewLocationThread.isAlive());
             }
         }
+        //TODO start ASyncTask to call uploadFillUp in Storage Service...
     }
 
     /**
@@ -162,6 +159,7 @@ public class LocationService extends IntentService {
                 Database db = new Database(getApplicationContext());
     			db.open();
     			db.updateFillUp(this.rowId, location.getLatitude(), location.getLongitude());
+    			db.close();
             }
         }
     }

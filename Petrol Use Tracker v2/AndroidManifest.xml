@@ -32,7 +32,7 @@
             android:label="@string/title_activity_record_fill_up" >
         </activity>
         <activity android:name=".gui.TestActivity"></activity>
-        <service android:name=".services.AddLocationService">
+        <service android:name=".services.LocationService">
 		</service>
     </application>
 

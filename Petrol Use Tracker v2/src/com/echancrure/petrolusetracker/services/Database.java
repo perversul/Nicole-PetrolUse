@@ -21,6 +21,10 @@ public  class Database {
 	public void open() throws SQLException {
 	   database = dbHelper.getWritableDatabase();
 	}
+	
+	public void close() {
+		dbHelper.close();
+	}
 
 	/**
 	 * insert a new fillup into our local database
