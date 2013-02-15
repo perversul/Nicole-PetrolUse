@@ -90,12 +90,13 @@ public class LocationService extends IntentService {
                 Log.d(TAG, "join finished: the location thread should be terminated, isAlive should be false:" + getNewLocationThread.isAlive());
             }
         }
-        //We upload the fillup to the cloud whether or not a geo-location has been found
+        //TODO refactor: this kind of things does not belong here this logic should be in the domain layer
+        //We upload the fillup to the cloud whether or not a geolocation has been found
         Database db = new Database(getApplicationContext());
 		db.openForQuery();
 		Cursor cur = db.queryFillUp(this.rowId);
 		int dateTime = cur.getInt(cur.getColumnIndex(FillUpEntry.DATE_TIME_NAME));
-		//TODO continue retrieving all the elements of the fillup, build a json object and upload to the cloud
+		//FIXME continue retrieving all the elements of the fillup, build a json object and upload to the cloud
 		cur.close();
 		db.close();
 		//upload to the cloud app
@@ -230,11 +231,11 @@ public class LocationService extends IntentService {
         public void onProviderDisabled(String arg0) {
             onThreadStop();
         }
-
+        
         public void onProviderEnabled(String arg0) {
             // Do nothing
         }
-
+        
         public void onStatusChanged(String provider, int status, Bundle arg2) {
             boolean stop = false;
             if ((System.currentTimeMillis() - this.threadListeningStartTimeUTC) > TWO_MINUTES) stop = true; // we stop after 2 minutes of listening
