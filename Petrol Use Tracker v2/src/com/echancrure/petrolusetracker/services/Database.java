@@ -5,10 +5,16 @@ import com.echancrure.petrolusetracker.services.DatabaseHelper.FillUpEntry;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+/**
+ * Local database on the phone to deal with no network
+ * @author Christophe Meudec
+ *
+ */
 public  class Database {
 	private static final String TAG = "Database";
 	private SQLiteDatabase database;
@@ -22,6 +28,10 @@ public  class Database {
 	   database = dbHelper.getWritableDatabase();
 	}
 	
+	public void openForQuery() throws SQLException {
+		   database = dbHelper.getReadableDatabase();
+	}
+	
 	public void close() {
 		dbHelper.close();
 	}
@@ -29,7 +39,7 @@ public  class Database {
 	/**
 	 * insert a new fillup into our local database
 	 * @param fillUp the fillup to insert into the database
-	 * @return the rowId of the netry inserted or -1 in case of error
+	 * @return the rowId of the entry inserted or -1 in case of error
 	 */
 	public long insertFillUp(FillUp fillUp) {
 	    ContentValues values = new ContentValues();
@@ -44,12 +54,30 @@ public  class Database {
 	    return rowId;
 	  }
 	
+	public Cursor queryFillUp(long rowId) {
+		Cursor cur = database.query(FillUpEntry.TABLE_NAME, null, FillUpEntry._ID + " = " + rowId, null, null, null, null);
+		cur.moveToFirst();
+		return cur;
+	}
+	
+	/**
+	 * updates an existing fillup from the database with new latitude and longitude values
+	 * @param rowId the fillup to update
+	 * @param latitude the obtained latitude
+	 * @param longitude the obtained longitude
+	 */
 	public void updateFillUp(long rowId, double latitude, double longitude) {
-		//TODO
+		ContentValues newValues = new ContentValues();
+		newValues.put(FillUpEntry.LATITUDE_NAME, latitude);
+		newValues.put(FillUpEntry.LONGITUDE_NAME, longitude);
+		database.update(FillUpEntry.TABLE_NAME, newValues, FillUpEntry._ID + " = " + rowId, null);
 	}
 
+	/**
+	 * delete a fillup from the database
+	 * @param rowId the id f the fillup entry to delete
+	 */
 	  public void deleteFillup(long rowId) {   
 	    database.delete(FillUpEntry.TABLE_NAME, FillUpEntry._ID + " = " + rowId, null);
 	  }
-
 }

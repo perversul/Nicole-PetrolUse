@@ -1,11 +1,14 @@
 package com.echancrure.petrolusetracker.services;
 
+import com.echancrure.petrolusetracker.services.DatabaseHelper.FillUpEntry;
+
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -87,7 +90,16 @@ public class LocationService extends IntentService {
                 Log.d(TAG, "join finished: the location thread should be terminated, isAlive should be false:" + getNewLocationThread.isAlive());
             }
         }
-        //TODO start ASyncTask to call uploadFillUp in Storage Service...
+        //We upload the fillup to the cloud whether or not a geo-location has been found
+        Database db = new Database(getApplicationContext());
+		db.openForQuery();
+		Cursor cur = db.queryFillUp(this.rowId);
+		int dateTime = cur.getInt(cur.getColumnIndex(FillUpEntry.DATE_TIME_NAME));
+		//TODO continue retrieving all the elements of the fillup, build a json object and upload to the cloud
+		cur.close();
+		db.close();
+		//upload to the cloud app
+		//and if successful delete the entry from the database, if not add listener to new netwrok connection event or could also try later (20 minutes?)
     }
 
     /**

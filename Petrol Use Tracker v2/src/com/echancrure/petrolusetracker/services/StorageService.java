@@ -68,16 +68,4 @@ public class StorageService {
 		}
 		return answer;
 	}
-	
-	void uploadFillUp() {
-		/*JSONObject answer = new JSONObject();
-		HttpService connection = new HttpService(this.context);
-		boolean localAnswer = connection.reportFillup(data);
-		try {
-			answer.put(STATUS, localAnswer);
-		} catch (JSONException e) {
-			Utils.raiseRunTimeException(TAG, e, "Will never occur");
-		}*/
-	//and if successful delete the entry from the database, if not add listener to new netwrok connection event or could also try later (20 minutes?)
-	}
 }
